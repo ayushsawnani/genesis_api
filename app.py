@@ -11,7 +11,7 @@ def getClassesAndGrades(user, pas):
 
 
     for i in pas:
-        if i == '3':
+        if i == '=':
             pas = pas.replace(i, '#')
     
 

@@ -84,6 +84,7 @@ class PortalControl:
             if k.get_attribute("onclick") == None and k.text not in self.classes and "Email" in k.text:
                 self.teachers.append(k.text[0 : k.text.index('Email')-1])
         
+        self.driver.close()
         
         
     
@@ -112,5 +113,6 @@ class PortalControl:
 
         x = self.driver.find_element(By.XPATH, "/html/body/table[2]/tbody/tr[2]/td/table/tbody")
         #print(x.text)
+        self.driver.close()
 
         
