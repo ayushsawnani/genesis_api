@@ -1,8 +1,11 @@
+
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+
 
 
 getlogin = ('https://students.sbschools.org/genesis/sis/view?gohome=true')
@@ -27,6 +30,14 @@ class PortalControl:
     def __init__(self, u, pa):
         self.user = u
         self.p = pa
+        self.name = ""
+        self.currentMP = ""
+        self.day = ""
+        self.date = ""
+        self.scheduleClasses = []
+        self.scheduleRooms = []
+        self.scheduleTeachers = []
+        self.scheduleTimes = []
         self.classes = []
         self.classes_ = []
         self.grades = []
@@ -53,10 +64,81 @@ class PortalControl:
         pass_path.send_keys(self.p)
 
         login.click()
+        print("logged in")
 
+        #SUMMARY URL
+        self.driver.get('https://students.sbschools.org/genesis/parents?tab1=studentdata&tab2=studentsummary&action=form&studentid=' + self.user)
+        name = self.driver.find_element(By.XPATH, '/html/body/form[2]/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table[1]/tbody/tr[1]/td[1]')
+
+        #get the name
+        self.name = name.text
+
+        #get the day (a or b)
+        self.day = self.driver.find_element(By.XPATH, '/html/body/form[2]/table/tbody/tr[2]/td/table/tbody/tr/td[2]/div[2]/table/tbody/tr/td[4]/div/b').text
+
+        #get the date
+        self.date = self.driver.find_element(By.XPATH, '/html/body/form[2]/table/tbody/tr[2]/td/table/tbody/tr/td[2]/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td[1]/div[1]').text
+
+        
+        #schedule
+        w = self.driver.find_elements(By.CLASS_NAME, 'cellLeft')
+
+        h = []
+
+        for i in range (0, len(w)):
+            if i > 12:
+                h.append(w[i].text)
+
+        
+        
+        
+        for j in range(0, len(h)):
+
+            #times
+            if j%2 == 0:
+                qwe = h[j][9 : len(h[j])]
+                if j > 0:
+                    qwe = h[j][9 : len(h[j])]
+                
+                if j == 4 or j == 6:
+                    qwe = qwe[2 : len(qwe)]
+            
+                self.scheduleTimes.append(qwe)
+
+   
+        #rooms teachers classes
+        for k in range(1, len(h), 2):
+
+            self.scheduleClasses.append( h[k : k+1][0][ 0 : h[k : k+1][0].index("\n")] )
+            ti = h[k : k+1][0].find("\n", h[k : k+1][0].find("\n") + 1)
+            if ti != -1:
+                self.scheduleTeachers.append(h[k : k+1][0][h[k : k+1][0].index("\n") + 1 : ti])
+                self.scheduleRooms.append(h[k : k+1][0][ti+1 : len(h[k : k+1][0])])
+            else:
+                self.scheduleTeachers.append(" ")
+                self.scheduleRooms.append("Lunch Room")
+            
+        
+        
+                    
+
+
+
+        #get the schedule rooms
+
+        #get the schedule teachers
+
+        #GRADEBOOK URL
         self.driver.get('https://students.sbschools.org/genesis/parents?tab1=studentdata&tab2=gradebook&tab3=weeklysummary&studentid=' + self.user + '&action=form')
 
-        print("logged in")
+
+        #get the marking period
+        select = Select(self.driver.find_element(By.NAME, 'fldMarkingPeriod'))
+        option = select.first_selected_option
+        self.currentMP = option.text
+        
+
+
 
 
         #get the classes
@@ -89,6 +171,10 @@ class PortalControl:
         
     
 
+    def get_name(self):
+        return self.name
+    def get_currentMP(self):
+        return self.currentMP
     def get_classes(self):
         return self.classes
     def get_grades(self):
@@ -97,6 +183,19 @@ class PortalControl:
         return self.teachers
     def get_letters(self):
         return self.letters
+    def get_day(self):
+        return self.day
+    def get_date(self):
+        return self.date
+    def get_scheduleClasses(self):
+        return self.scheduleClasses
+    def get_scheduleRooms(self):
+        return self.scheduleRooms
+    def get_scheduleTeachers(self):
+        return self.scheduleTeachers
+    def get_scheduleTimes(self):
+        return self.scheduleTimes
+    
 
     
         
