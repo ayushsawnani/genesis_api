@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
+import secret
 
 
 
@@ -43,7 +44,7 @@ class PortalControl:
         self.grades = []
         self.teachers = []
         self.letters = []
-        self.driver = webdriver.Chrome(desired_capabilities=dc, executable_path="C:/Users/Ayush/OneDrive/Documents/Code/chromedriver.exe", chrome_options=chrome_options, options=options)
+        self.driver = webdriver.Chrome(desired_capabilities=dc, executable_path=secret.path, chrome_options=chrome_options, options=options)
         self.driver.minimize_window()
 
 
