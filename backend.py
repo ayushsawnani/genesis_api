@@ -154,11 +154,17 @@ class PortalControl:
         #get the grades
         z = self.driver.find_elements(By.CLASS_NAME, "cellRight")
         for j in z:
+        
             if j.get_attribute("onclick") != None: 
+                
                 if "%" in j.text:
                     self.grades.append(j.text)
                 else:
                     self.letters.append(j.text)
+
+            elif "Not Graded MP4" in j.text:
+                self.grades.append("n/a")
+                self.letters.append("n/a")
         
         #get the teachers
         b = self.driver.find_elements(By.CLASS_NAME, "cellLeft")
