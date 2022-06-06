@@ -15,3 +15,11 @@ Finds the ```XPATH``` of the file and saves the information to a list.
 ## FLASK
 
 Uses Python ```FLASK``` (temporary) to upload the data to your local server.
+
+
+*Currently has:*
+  - gets the name, marking period, and schedule for the day.
+  - Gets the users 8 classes for current marking period.
+
+
+Returns in ```JSON```.
