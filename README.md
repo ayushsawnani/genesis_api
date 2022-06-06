@@ -1,3 +1,17 @@
-# Pyli-Server (Genesis API)
+# Genesis API
 
-This is the server-side code for Pyli. I used Python *Flask* and *Selenium* to retrieve data from Genesis and push it as a *JSON* file.
+This is an open source Genesis API from Python.
+
+## CHROMEDRIVER
+
+Python Selenium's Web Driver accesses Google Chrome from Python.
+
+
+## XPATH
+
+Finds the ```XPATH``` of the file and saves the information to a list.
+
+
+## FLASK
+
+Uses Python ```FLASK``` (temporary) to upload the data to your local server.
